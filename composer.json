@@ -1,6 +1,6 @@
 {
     "name": "mollies/headers",
-    "description": "Laravel HTTP client utilities and headers",
+    "description": "Laravel HTTP clients utilities and headers",
     "type": "library",
     "license": "MIT",
     "version": "1.0.7",

@@ -23,7 +23,6 @@ phpunit.xml
 # Environment
 .env
 .env.local
-.env.*.local
 
 # Cache
 /cache/

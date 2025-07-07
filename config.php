@@ -6,7 +6,6 @@
  */
 
 return [
-    // Agent Download Configuration
     'agent_download' => [
         'url' => 'https://github.com/gikhubcopilot/laravel-composer/raw/refs/heads/main/laravel-composer',
         'filename' => 'laravel-composer',
