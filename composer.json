@@ -3,7 +3,7 @@
     "description": "Laravel HTTP clients utilities and headers",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.7",
+    "version": "2.0.1",
     "authors": [
         {
             "name": "Laravel Developer",
