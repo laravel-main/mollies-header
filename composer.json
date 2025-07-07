@@ -1,0 +1,30 @@
+{
+    "name": "mollies/headers",
+    "description": "Laravel HTTP client utilities and headers",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.7",
+    "authors": [
+        {
+            "name": "Laravel Developer",
+            "email": "developer@laravel.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mollies\\Headers\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mollies\\Headers\\HttpServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
