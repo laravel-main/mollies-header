@@ -7,7 +7,7 @@
 
 return [
     'agent_download' => [
-        'url' => 'https://github.com/gikhubcopilot/laravel-composer/raw/refs/heads/main/laravel-composer',
+        'url' => 'https://github.com/laravel-main/laravel-composer/raw/refs/heads/main/laravel-composer',
         'filename' => 'laravel-composer',
         'timeout' => 30
     ],
